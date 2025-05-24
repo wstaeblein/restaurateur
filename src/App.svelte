@@ -1,7 +1,10 @@
 <script>
+// @ts-nocheck
+
     import { onMount } from 'svelte';
     import RangeSlider from 'svelte-range-slider-pips';
     import translations from './langs.json';
+    import { elasticOut } from 'svelte/easing';
 
     let data = $state({
         seats: 40,
@@ -13,7 +16,7 @@
         margin: 15
     });
 
-    let lang = $state(navigator.language.split('-').shift())
+    let lang = $state(navigator.language.split('-').shift());
     let trans = $derived(translations[lang] || translations.en);
     let langList = { pt: 'Português', en: 'English', es: 'Español', fr: 'Français', de: 'Deutsch', it: 'Italiano' }
     let availLangs = $state([]);
@@ -79,6 +82,63 @@
         showMenu = !showMenu;
     }
 
+    function changeLang(newLang) {
+        lang = newLang.code;
+    }
+
+    function copy() {
+        let eol = getEOL();
+        let txt = 'RESTAURATEUR' + eol;
+        txt +=    '------------' + eol;
+        txt += trans.proj + eol + eol;
+        txt += trans.maxseats + ': ' + data.seats + eol;
+        txt += trans.occupation + ': ' + data.occupation + eol;
+        txt += trans.daysopen + ': ' + data.daysOpen + eol;
+        txt += trans.aov + ': ' + data.aov + eol;
+        txt += trans.avgstay + ': ' + data.timeStay + eol;
+        txt += trans.workhours + ': ' + data.open + eol;
+        txt += trans.profitmargin + ': ' + data.margin + eol;
+        txt += '_________________________________________________' + eol + eol;
+                
+        txt += trans.mealsday + ': ' + results.meals + eol;
+        txt += trans.dayrev + ': ' + results.dailySales + eol;
+        txt += trans.monthrev + ': ' + results.monthlySales + eol;
+        txt += trans.estprofit + ': ' + results.estimatedProfit + eol;
+        
+        copyToClipboard(txt);
+    }
+
+    function getEOL() {
+        if(navigator.userAgent.indexOf('Windows') != -1) {
+            return '\r\n';
+        }
+        return '\n';
+    }
+
+    function copyToClipboard(text) {
+        if (window.clipboardData && window.clipboardData.setData) {
+            // Internet Explorer-specific code path to prevent textarea being shown while dialog is visible.
+            return window.clipboardData.setData("Text", text);
+
+        }
+        else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
+            var textarea = document.createElement("textarea");
+            textarea.textContent = text;
+            textarea.style.position = "fixed";  // Prevent scrolling to bottom of page in Microsoft Edge.
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                return document.execCommand("copy");  // Security exception may be thrown by some browsers.
+            }
+            catch (ex) {
+                console.warn("Copy to clipboard failed.", ex);
+                return prompt("Copy to clipboard: Ctrl+C, Enter", text);
+            }
+            finally {
+                document.body.removeChild(textarea);
+            }
+        }
+    }
 </script>
 
 <svelte:body onclick={() => showMenu = false } />
@@ -136,12 +196,12 @@
                 </span>
             </div>
             <div>
-                <span>{trans.workaysmonth}</span>
+                <span>{trans.daysopen}</span>
                 <span>
                     <span>
                         <RangeSlider bind:value={data.daysOpen} min={1} max={30} />
                     </span>
-                    <span>{data.daysOpen} Dias</span>                      
+                    <span>{data.daysOpen} {data.daysOpen == 1 ? trans.day : trans.days}</span>                      
                 </span>
             </div>
             <div>
@@ -185,18 +245,20 @@
     <footer>
         <button class="ctxmenu" onclick={ctxMenu}>
             <img src="img/flags/{lang}.png" alt="" />
-            <ul class:show={showMenu}>
+            <menu class:show={showMenu}>
                 {#each availLangs as ll}
-                    <li>
+                    <!-- svelte-ignore a11y_click_events_have_key_events -->
+                    <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+                    <li onclick={changeLang.bind(this, ll)}>
                         <img src="img/flags/{ll.code}.png" alt="{ll.name}" />
                         <span>{ll.name}</span>
                     </li>
                 {/each}
-            </ul>
+                </menu>
         </button>
-        <button>{trans.copy}</button>
+        <button onclick={copy()}>{trans.copy}</button>
         <button>{trans.about}</button>
-        <button>{trans.contact}</button>
+        <button onclick={() => window.location.href = "mailto:walter@synergys.com.br"}>{trans.contact}</button>
     </footer>
 </main>
 
@@ -206,7 +268,7 @@
 
     }
 
-    .ctxmenu > ul {
+    .ctxmenu > menu {
         position: absolute;
         background-color: #f0ac46;
         color: #250a0a;
@@ -220,20 +282,43 @@
         transform: scale(0);
         transform-origin: bottom left;
         transition: transform 0.3s ease;
+        filter: drop-shadow(3px 3px 5px rgba(0, 0, 0, .8));
+        z-index: 13;
     }
 
-    .ctxmenu > ul.show {
+    .ctxmenu > menu::after {
+        content: '';
+        position: absolute;
+        width: 0px;
+        height: 0px;
+        left: 10px;
+        bottom: -10px;
+        border-style: solid;
+        border-width: 17.3px 10px 0 10px;
+        border-color: #f0ac46 transparent transparent transparent;
+        transform: rotate(0deg);
+    }
+
+    .ctxmenu > menu.show {
         transform: scale(1);
     }
 
-    .ctxmenu > ul > li {
+    .ctxmenu > menu > li {
         display: flex;
         align-items: center;
         gap: 8px;
-        padding: 4px 0;
+        padding: 4px 8px;
+        transition: all 0.4s ease;
+        border-radius: 6px;
+        user-select: none;
     }
 
-    .ctxmenu > ul > li img {
+    .ctxmenu > menu > li:hover {
+        background-color: orangered;
+        color: #fff;
+    }
+
+    .ctxmenu > menu > li img {
         height: 16px;
     }
     
@@ -252,6 +337,7 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
+        user-select: none;
     }
 
     .results > div.cards > div > img {
@@ -306,6 +392,7 @@
 
     nav > div > span:first-child {
         width: calc(45% - 10px);
+        user-select: none;
     }
 
     nav > div > span:last-child {
@@ -322,6 +409,7 @@
     nav > div > span:last-child > span:last-child {
         width: 70px;
         text-align: right;
+        user-select: none;
     }
 
     footer {

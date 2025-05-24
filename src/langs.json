@@ -8,21 +8,58 @@
 
         "maxseats": "Número Máximo de Assentos",
         "occupation": "Porcentagem Média de Ocupação",
-        "workaysmonth": "Média de Dias de Funcionamento por Mês",
-        "aov": "Ticket Médio",
+        "daysopen": "Média de Dias de Funcionamento por Mês",
+        "aov": "Valor Médio do pedido",
         "avgstay": "Tempo Médio de Permanencia por Pessoa",
         "workhours": "Horário de Funcionamento (ao Cliente)",
         "profitmargin": "Margem de Lucro Pretendida",
         "copy": "Copiar",
         "about": "Sobre",
-        "contact": "Contato"
+        "contact": "Contato",
+        "day": "Dia",
+        "days": "Dias"
     },
 
     "en": {
-        
+        "proj": "Cost projection of a restaurant, cafe or bar",
+        "mealsday": "Meals per day",
+        "dayrev": "Daily revenue",
+        "monthrev": "Monthly revenue",
+        "estprofit": "Estimated profit",
+        "maxseats": "Maximum number of seats",
+        "occupation": "Average percentage of occupation",
+        "daysopen": "Average operating days per month",
+        "aov": "Average order value",
+        "avgstay": "Average sitting time per person",
+        "workhours": "Opening hours (to customers)",
+        "profitmargin": "Target profit margin",
+        "copy": "Copy",
+        "about": "About",
+        "contact": "Contact",
+        "day": "Day",
+        "days": "Days"
     },
 
     "es": {
-        
+        "proj": "Proyección de costos de un restaurante, cafetería o bar",
+        "mealsday": "Comidas por día",
+        "dayrev": "Ingresos diarios",
+        "monthrev": "Ingresos mensuales",
+        "estprofit": "Beneficio estimado",
+        "maxseats": "Número máximo de asientos",
+        "occupation": "Porcentaje promedio de ocupación",
+        "daysopen": "Días de operación promedio por mes",
+        "aov": "Valor medio del pedido",
+        "avgstay": "Tiempo promedio sentado por persona",
+        "workhours": "Horario de apertura (a los clientes)",
+        "profitmargin": "Margen de beneficio objetivo",
+        "copy": "Copiar",
+        "about": "Acerca de",
+        "contact": "Contacto",
+        "day": "Día",
+        "days": "Días"
+    },
+    "fr": {
+
     }
 }
