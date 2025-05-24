@@ -1,0 +1,28 @@
+{
+    "pt": {
+        "proj": "Projeção de custo de um Restaurante, café ou bar",
+        "mealsday": "Refeições por dia",
+        "dayrev": "Faturamento Diário",
+        "monthrev": "Faturamento Mensal",
+        "estprofit": "Lucro Estimado",
+
+        "maxseats": "Número Máximo de Assentos",
+        "occupation": "Porcentagem Média de Ocupação",
+        "workaysmonth": "Média de Dias de Funcionamento por Mês",
+        "aov": "Ticket Médio",
+        "avgstay": "Tempo Médio de Permanencia por Pessoa",
+        "workhours": "Horário de Funcionamento (ao Cliente)",
+        "profitmargin": "Margem de Lucro Pretendida",
+        "copy": "Copiar",
+        "about": "Sobre",
+        "contact": "Contato"
+    },
+
+    "en": {
+        
+    },
+
+    "es": {
+        
+    }
+}
