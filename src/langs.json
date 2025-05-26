@@ -17,7 +17,51 @@
         "about": "Sobre",
         "contact": "Contato",
         "day": "Dia",
-        "days": "Dias"
+        "days": "Dias",
+        "bmc": "Me paga um café",
+        "withlove": "Feito com ❤️ por Walter Staeblein",
+        "back": "Voltar",
+        "pitch": "Este web app tem como objetivo ajudar empresários de restaurantes, cafés, bares e afins a ter uma ideia da possível lucratividade de um negócio em relação ao seu tamanho e movimento até mesmo quando a empreitada ainda está apenas na cabeça.",
+        "free": "100% Gratuito, use sem restrições.",
+        "sitesdesc": "Visite nossos outros sites e descubra serviços gratuitos e entretenimento",
+        "sites": [
+            {
+                "name": "Terra Incógnita",
+                "desc": "Blog sobre assuntos pouco discutidos da trajetória da nossa espécie, civilização e do mundo natural em geral.",
+                "id": "terrainc",
+                "link": "https://terraincognita.com.br"
+            },
+            {
+                "name": "Panda Cub App",
+                "desc": "Aplicativo para facilmente reduzir o tamanho e até as dimensões de imagens nos formatos JPG, PNG e WEBP.",
+                "id": "pandacub",
+                "link": "https://pandacub.app/"
+            },
+            {
+                "name": "Password Cat",
+                "desc": "Sua senha é fácil de hackear? É forte o suficiente? Descubra usando esse medidor de força de senhas",
+                "id": "passcat",
+                "link": "https://passwordcat.top/"
+            },
+            {
+                "name": "MetaGen",
+                "desc": "Gere mais tráfego para o seu site criando meta tags e manifesto da web corretamente com este aplicativo gratuito e completo.",
+                "id": "metagen",
+                "link": "https://metagen.top/"
+            },            
+            {
+                "name": "Planejamento.prof",
+                "desc": "Planejamento anual fácil e rápido, online e offline, para professores e docentes.",
+                "id": "planprof",
+                "link": "https://planejamentoprof.netlify.app"
+            },
+            {
+                "name": "Game of Life",
+                "desc": "Implementação da automação celular conhecida como o jogo da vida. Mostra como regras simples podem gerar grande complexidade. ",
+                "id": "gol",
+                "link": "https://g-o-l.netlify.app/"
+            }
+        ]
     },
 
     "en": {
@@ -37,7 +81,39 @@
         "about": "About",
         "contact": "Contact",
         "day": "Day",
-        "days": "Days"
+        "days": "Days",
+        "bmc": "Buy me a coffee",
+        "withlove": "Made with ❤️ by Walter Staeblein",
+        "back": "Go Back",
+        "pitch": "This web app aims to help restaurant, café, bar and similar business owners to get an idea of the possible profitability of such business in relation to its size and movement, even when the venture is still just in their head.",
+        "free": "100% Free, you may use without restrictions.",
+        "sitesdesc": "Visit our other sites and discover free services and entertainment",
+        "sites": [
+            {
+                "name": "Panda Cub App",
+                "desc": "Application to easily reduce the size and even dimensions of images in JPG, PNG and WEBP formats.",
+                "id": "pandacub",
+                "link": "https://pandacub.app/"
+            },
+            {
+                "name": "Password Cat",
+                "desc": "Is your password easy to hack? Is it strong enough? Find out using this password strength meter",
+                "id": "passcat",
+                "link": "https://passwordcat.top/"
+            },
+            {
+                "name": "MetaGen",
+                "desc": "Drive more traffic to your website by creating meta tags and web manifest correctly with this free and complete application.",
+                "id": "metagen",
+                "link": "https://metagen.top/"
+            },            
+            {
+                "name": "Game of Life",
+                "desc": "Implementation of the cellular automaton known as the game of life. Shows how simple rules can generate great complexity.",
+                "id": "gol",
+                "link": "https://g-o-l.netlify.app/"
+            }
+        ]
     },
 
     "es": {
@@ -57,9 +133,128 @@
         "about": "Acerca de",
         "contact": "Contacto",
         "day": "Día",
-        "days": "Días"
+        "days": "Días",
+        "bmc": "Cómprame un café",
+        "withlove": "Hecho con ❤️ por Walter Staeblein",
+        "back": "Volver",
+        "pitch": "Esta aplicación web tiene como objetivo ayudar a los propietarios de restaurantes, cafeterías, bares y negocios similares a tener una idea de la posible rentabilidad de dicho negocio en relación con su tamaño y movimiento, incluso cuando la empresa todavía está sólo en su cabeza.",
+        "free": "100% Gratis, uso sin restricciones.",
+        "sitesdesc": "Visita nuestros otros sitios y descubre servicios y entretenimiento gratuitos",
+        "sites": [
+            {
+                "name": "Panda Cub App",
+                "desc": "Aplicación para reducir fácilmente el tamaño y las dimensiones de imágenes en formatos JPG, PNG y WEBP.",
+                "id": "pandacub",
+                "link": "https://pandacub.app/"
+            },
+            {
+                "name": "Password Cat",
+                "desc": "¿Es fácil hackear tu contraseña? ¿Es lo suficientemente segura? Descúbrelo con este medidor de seguridad de contraseñas",
+                "id": "passcat",
+                "link": "https://passwordcat.top/"
+            },
+            {
+                "name": "MetaGen",
+                "desc": "Dirija más tráfico a su sitio web creando metaetiquetas y manifiestos web correctamente con esta aplicación gratuita y completa.",
+                "id": "metagen",
+                "link": "https://metagen.top/"
+            },            
+            {
+                "name": "Game of Life",
+                "desc": "Implementación de la automatización celular conocida como el juego de la vida. Muestra cómo reglas simples pueden generar una gran complejidad.",
+                "id": "gol",
+                "link": "https://g-o-l.netlify.app/"
+            }
+        ]            
     },
     "fr": {
-
+        "proj": "Projection coût d'un restaurant, d'une cafétéria ou d'un bar",
+        "mealsday": "Repas par jour",
+        "dayrev": "Revenu quotidien",
+        "monthrev": "Revenu mensuel",
+        "estprofit": "Avantage estimé",
+        "maxseats": "Nombre maximum de sièges",
+        "occupation": "Pourcentage d'occupation moyen",
+        "daysopen": "Jours de fonctionnement moyens par mois",
+        "aov": "Valeur de commande moyenne",
+        "avgstay": "Temps moyen assis par personne",
+        "workhours": "Heures d'ouverture (aux clients)",
+        "profitmargin": "Marge bénéficiaire objective",
+        "copy": "Copie",
+        "about": "À propos",
+        "contact": "Contact",
+        "day": "Jour",
+        "days": "Jours",
+        "bmc": "Acheter un café",
+        "withlove": "Fait avec ❤️ par Walter Staeblein",
+        "back": "Retour",
+        "pitch": "Cette application Web vise à aider les propriétaires de restaurants, cafés, bars et entreprises similaires à une idée de la rentabilité possible de ladite entreprise en relation avec sa taille et son mouvement, même lorsque l'entreprise n'est encore que dans sa tête.",
+        "free": "100% gratuit, utilisez sans restrictions.",
+        "sitesdesc": "Visitez nos autres sites et découvrez des services et divertissements gratuits",
+        "sites": [
+            {
+                "name": "Panda Cub App",
+                "desc": "Application permettant de réduire facilement la taille et les dimensions des images aux formats JPG, PNG et WEBP.",
+                "id": "pandacub",
+                "link": "https://pandacub.app/"
+            },
+            {
+                "name": "MetaGen",
+                "desc": "Générez plus de trafic vers votre site Web en créant correctement des balises méta et un manifeste Web avec cette application gratuite et complète.",
+                "id": "metagen",
+                "link": "https://metagen.top/"
+            },
+            {
+                "name": "Game of Life",
+                "desc": "Mise en œuvre de l'automate cellulaire connu sous le nom de jeu de la vie. Montre comment des règles simples peuvent générer une grande complexité.",
+                "id": "gol",
+                "link": "https://g-o-l.netlify.app/"
+            }
+        ]
+    },
+    "de": {
+        "proj": "Kostenprojektion eines Restaurants, eines Cafés oder einer Bar",
+        "mealsday": "Mahlzeiten pro Tag",
+        "dayrev": "Tägliche Einnahmen",
+        "monthrev": "Monatliche Einnahmen",
+        "estprofit": "Geschätzter Gewinn",
+        "maxseats": "Maximale Anzahl von Sitzen",
+        "occupation": "Durchschnittlicher Prozentsatz des Berufs",
+        "daysopen": "Durchschnittliche Betriebstage im Monat",
+        "aov": "Durchschnittlicher Bestellwert",
+        "avgstay": "Durchschnittliche Sitzzeit pro Person",
+        "workhours": "Öffnungszeiten (für Kunden)",
+        "profitmargin": "Zielgewinnspanne",
+        "copy": "Kopie",
+        "about": "Zirka",
+        "contact": "Kontakt",
+        "day": "Tag",
+        "days": "Tage",
+        "bmc": "Kaufen Sie mir einen Kaffee",
+        "withlove": "Hergestellt mit ❤️ von Walter Staebebein",
+        "back": "Geh zurück",
+        "pitch": "Diese Web -App zielt darauf ab, Restaurants, Cafés, Bar und ähnliche Geschäftsinhaber zu helfen, eine Vorstellung von der möglichen Rentabilität eines solchen Geschäfts in Bezug auf Größe und Bewegung zu erhalten, auch wenn das Unternehmen immer noch nur im Kopf ist.",
+        "free": "100% kostenlos können Sie ohne Einschränkungen verwenden.",
+        "sitesdesc": "Besuchen Sie unsere anderen Websites und entdecken Sie kostenlose Dienste und Unterhaltung",
+        "sites": [
+            {
+                "name": "Panda Cub App",
+                "desc": "Anwendung zum einfachen Reduzieren der Größe und Abmessungen von Bildern in den Formaten JPG, PNG und WEBP.",
+                "id": "pandacub",
+                "link": "https://pandacub.app/"
+            },
+            {
+                "name": "MetaGen",
+                "desc": "Steigern Sie den Verkehr auf Ihrer Website, indem Sie mit dieser kostenlosen und umfassenden Anwendung Meta-Tags und Webmanifeste korrekt erstellen.",
+                "id": "metagen",
+                "link": "https://metagen.top/"
+            },            
+            {
+                "name": "Game of Life",
+                "desc": "Implementierung des zellulären Automaten, der als Spiel des Lebens bekannt ist. Zeigt, wie einfache Regeln große Komplexität erzeugen können.",
+                "id": "gol",
+                "link": "https://g-o-l.netlify.app/"
+            }
+        ]          
     }
 }

@@ -1,6 +1,6 @@
 <script>
 // @ts-nocheck
-
+    import { fly } from 'svelte/transition';
     import { onMount } from 'svelte';
     import RangeSlider from 'svelte-range-slider-pips';
     import translations from './langs.json';
@@ -21,6 +21,10 @@
     let langList = { pt: 'Português', en: 'English', es: 'Español', fr: 'Français', de: 'Deutsch', it: 'Italiano' }
     let availLangs = $state([]);
     let showMenu = $state(false);
+    let mode = $state(0);
+    let timeHandle = 0;
+    let clipImg = $state();
+    let okClipImg;
 
     let results = $derived.by(() => {
 		let numpeople = (data.seats * data.occupation) / 100;
@@ -43,6 +47,9 @@
     onMount(() => {
         addEventListener("orientationchange", changeBkg);
         changeImage();
+
+        okClipImg = new Image();
+        okClipImg.src = 'img/ok.png';
 
         availLangs = Object.keys(translations).map(t => ({ code: t, name: langList[t]}));
         console.log(availLangs)
@@ -71,7 +78,11 @@
 
     function changeImage() {
         let time = rand(60000, 160000); console.log(time)
-        setTimeout(() => {
+
+        if (timeHandle) { 
+            clearTimeout(timeHandle);
+        }
+        timeHandle = setTimeout(() => {
             changeBkg();
             changeImage();
         }, time);
@@ -136,8 +147,23 @@
             }
             finally {
                 document.body.removeChild(textarea);
+                clipImg.src = okClipImg.src;
+                clipImg.style.pointerEvents = 'none';
+
+                setTimeout(() => {
+                    clipImg.src = 'img/copy.png';
+                    clipImg.style.pointerEvents = 'all';
+                }, 3000);
             }
         }
+    }
+
+    function sendMail() {
+        window.location.href = 'mailto:walter@synergys.com.br';
+    }
+
+    function bmc() {
+        window.open('https://buymeacoffee.com/wstaeblein', '_blank');
     }
 </script>
 
@@ -147,122 +173,237 @@
     <h1>Restaurateur</h1>
     <h2>{trans.proj}</h2>
 
-    <div class="results">
-        <div class="cards">
-            <div>
-                <img src="img/meals.png" alt="" />
-                <h5>{trans.mealsday}</h5>
-                <span></span>
-                <h4>{results.meals || '---'}</h4>
+    {#if mode == 0}
+        <div class="results" in:fly={{ y: 200 }}>
+            <div class="cards">
+                <div>
+                    <img src="img/meals.png" alt="" />
+                    <h5>{trans.mealsday}</h5>
+                    <span></span>
+                    <h4>{results.meals || '---'}</h4>
+                </div>
+                <div>
+                    <img src="img/dayrevenue.png" alt="" />
+                    <h5>{trans.dayrev}</h5>
+                    <span></span>
+                    <h4>{results.dailySales || '---'}</h4>
+                </div>
+                <div>
+                    <img src="img/monthrevenue.png" alt="" />
+                    <h5>{trans.monthrev}</h5>
+                    <span></span>
+                    <h4>{results.monthlySales || '---'}</h4>
+                </div>
+                <div>
+                    <img src="img/estimatedprofit.png" alt="" />
+                    <h5>{trans.estprofit}</h5>
+                    <span></span>
+                    <h4>{results.estimatedProfit || '---'}</h4>
+                </div>            
             </div>
-            <div>
-                <img src="img/dayrevenue.png" alt="" />
-                <h5>{trans.dayrev}</h5>
-                <span></span>
-                <h4>{results.dailySales || '---'}</h4>
-            </div>
-            <div>
-                <img src="img/monthrevenue.png" alt="" />
-                <h5>{trans.monthrev}</h5>
-                <span></span>
-                <h4>{results.monthlySales || '---'}</h4>
-            </div>
-            <div>
-                <img src="img/estimatedprofit.png" alt="" />
-                <h5>{trans.estprofit}</h5>
-                <span></span>
-                <h4>{results.estimatedProfit || '---'}</h4>
-            </div>            
+
+            <nav>
+                <div>
+                    <span>{trans.maxseats}</span>
+                    <span>
+                        <span>
+                            <RangeSlider bind:value={data.seats} min={4} max={320} range="min" />
+                        </span>
+                        <span>{data.seats}</span>                        
+                    </span>
+                </div>
+                <div>
+                    <span>{trans.occupation}</span>
+                    <span>
+                        <span>
+                            <RangeSlider bind:value={data.occupation} range="min" />
+                        </span>
+                        <span>{data.occupation}%</span>                        
+                    </span>
+                </div>
+                <div>
+                    <span>{trans.daysopen}</span>
+                    <span>
+                        <span>
+                            <RangeSlider bind:value={data.daysOpen} min={1} max={30} range="min" />
+                        </span>
+                        <span>{data.daysOpen} {data.daysOpen == 1 ? trans.day : trans.days}</span>                      
+                    </span>
+                </div>
+                <div>
+                    <span>{trans.aov}</span>
+                    <span>
+                        <span>
+                            <RangeSlider bind:value={data.aov} min={5} max={500} range="min" />
+                        </span>
+                        <span>{fmt(data.aov)}</span>                      
+                    </span>
+                </div>
+                <div>
+                    <span>{trans.avgstay}</span>
+                    <span>
+                        <span>
+                            <RangeSlider bind:value={data.timeStay} min={5} max={600} range="min" />
+                        </span>
+                        <span>{data.timeStay} Min</span>                      
+                    </span>
+                </div>
+                <div>
+                    <span>{trans.workhours}</span>
+                    <span>
+                        <span>
+                            <RangeSlider bind:values={data.open} min={0} max={23} range="true" />
+                        </span>
+                        <span>{data.open[0]}h a {data.open[1]}h</span>                    
+                    </span>
+                </div>   
+                <div>
+                    <span>{trans.profitmargin}</span>
+                    <span>
+                        <span>
+                            <RangeSlider bind:value={data.margin} range="min" />
+                        </span>
+                        <span>{data.margin}%</span>                    
+                    </span>                
+                </div>   
+            </nav>
+
+            <footer>
+                <button class="ctxmenu narrow" onclick={ctxMenu}>
+                    <img src="img/flags/{lang}.png" alt="" />
+                    <menu class:show={showMenu}>
+                        {#each availLangs as ll}
+                            <!-- svelte-ignore a11y_click_events_have_key_events -->
+                            <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+                            <li onclick={changeLang.bind(this, ll)}>
+                                <img src="img/flags/{ll.code}.png" alt="{ll.name}" />
+                                <span>{ll.name}</span>
+                            </li>
+                        {/each}
+                        </menu>
+                </button>
+                <button onclick={copy} class="shadow"><img src="img/copy.png" bind:this={clipImg} alt="{trans.copy}" /></button>
+                <button onclick={() => mode = 1} class="shadow"><img src="img/info.png" alt="{trans.about}" /></button>
+                <button onclick={bmc} class="shadow"><img src="img/bmc.png" alt="{trans.bmc}" /></button>
+                <button onclick={sendMail} class="shadow"><img src="img/email.png" alt="{trans.contact}" /></button>
+            </footer>        
         </div>
+    {:else}
+        <aside in:fly={{ y: 200 }}>
+            <p class="pitch">{trans.pitch}</p>
+            <p>{trans.withlove}</p>
+            <ul>
+                <li>
+                    <a href="mailto:walter@synergys.com.br" target="_blank"><img src="img/at.png" alt="Email" /></a>
+                </li>
+                <li>
+                    <a href="https://github.com/wstaeblein" target="_blank"><img src="img/github.png" alt="Github" /></a>
+                </li>
+                <li>
+                    <a href="https://www.linkedin.com/in/wstaeblein" target="_blank"><img src="img/linkedin.png" alt="Linkedin" /></a>
+                </li>         
+                <li>
+                    <a href="https://bsky.app/profile/wstaeblein.bsky.social" target="_blank"><img src="img/bsky.png" alt="Blue Sky" /></a>
+                </li>         
+                <li>
+                    <a href="https://facebook.com/wstaeblein" target="_blank"><img src="img/fb.png" alt="Facebook" /></a>
+                </li>                               
+            </ul>
+            <div>
+                <img src="img/bmc_qr.png" style="height: 160px" alt="qrcode" />
+                <div><a href="https://buymeacoffee.com/wstaeblein" target="_blank"><b>{trans.bmc}</b></a></div>
+            </div>
 
+            <p>{trans.sitesdesc}</p>
+            <ul class="sites">
+                {#each trans.sites as site}
+                    <li>
+                        <a href={site.link} target="_blank">
 
-        <nav>
-            <div>
-                <span>{trans.maxseats}</span>
-                <span>
-                    <span>
-                        <RangeSlider bind:value={data.seats} min={4} max={500} />
-                    </span>
-                    <span>{data.seats}</span>                        
-                </span>
-            </div>
-            <div>
-                <span>{trans.occupation}</span>
-                <span>
-                    <span>
-                        <RangeSlider bind:value={data.occupation} />
-                    </span>
-                    <span>{data.occupation}%</span>                        
-                </span>
-            </div>
-            <div>
-                <span>{trans.daysopen}</span>
-                <span>
-                    <span>
-                        <RangeSlider bind:value={data.daysOpen} min={1} max={30} />
-                    </span>
-                    <span>{data.daysOpen} {data.daysOpen == 1 ? trans.day : trans.days}</span>                      
-                </span>
-            </div>
-            <div>
-                <span>{trans.aov}</span>
-                <span>
-                    <span>
-                        <RangeSlider bind:value={data.aov} min={5} max={500}  />
-                    </span>
-                    <span>{fmt(data.aov)}</span>                      
-                </span>
-            </div>
-            <div>
-                <span>{trans.avgstay}</span>
-                <span>
-                    <span>
-                        <RangeSlider bind:value={data.timeStay} min={5} max={600} />
-                    </span>
-                    <span>{data.timeStay} Min</span>                      
-                </span>
-            </div>
-            <div>
-                <span>{trans.workhours}</span>
-                <span>
-                    <span>
-                        <RangeSlider bind:values={data.open} min={0} max={23} range={true} />
-                    </span>
-                    <span>{data.open[0]}h a {data.open[1]}h</span>                    
-                </span>
-            </div>   
-            <div>
-                <span>{trans.profitmargin}</span>
-                <span>
-                    <span>
-                        <RangeSlider bind:value={data.margin} />
-                    </span>
-                    <span>{data.margin}%</span>                    
-                </span>                
-            </div>   
-        </nav>
-    </div>
-    <footer>
-        <button class="ctxmenu" onclick={ctxMenu}>
-            <img src="img/flags/{lang}.png" alt="" />
-            <menu class:show={showMenu}>
-                {#each availLangs as ll}
-                    <!-- svelte-ignore a11y_click_events_have_key_events -->
-                    <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
-                    <li onclick={changeLang.bind(this, ll)}>
-                        <img src="img/flags/{ll.code}.png" alt="{ll.name}" />
-                        <span>{ll.name}</span>
+                            <div><img src="img/sites/{site.id}.png" alt="{site.name}" /></div>
+                            <div class="desc">{site.desc}</div>
+                        </a>
                     </li>
                 {/each}
-                </menu>
-        </button>
-        <button onclick={copy()}>{trans.copy}</button>
-        <button>{trans.about}</button>
-        <button onclick={() => window.location.href = "mailto:walter@synergys.com.br"}>{trans.contact}</button>
-    </footer>
+            </ul>
+            <footer>
+                <button onclick={() => mode = 0} class="shadow">{trans.back}</button>
+            </footer>
+        </aside>
+    {/if}
 </main>
 
 <style>
+    .pitch {
+        font-size: smaller;
+        text-align: justify;
+    }
+
+    aside {
+        text-align: center;
+        user-select: none;
+    }
+
+    aside ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin: 5px 0 20px;
+    }
+
+    aside ul.sites {
+        flex-wrap: wrap;
+        justify-content: flex-start;
+    }
+
+    aside ul > li > a {
+        transition: transform 0.3s ease;
+        display: inline-block;
+    }
+
+    aside ul.sites > li {
+        width: 32%;
+        border: 1px dotted #250a0a;
+        padding: 0 10px 10px;
+        border-radius: 9px;
+    }
+
+    aside ul.sites > li > a {
+        transition: transform 0.3s ease;
+        display: inline-block;
+        text-decoration: none;
+    }
+
+    aside ul.sites > li > a:hover {
+        color: inherit;
+        text-shadow: none;
+    }
+
+    aside ul.sites > li > a img {
+        height: 92px;
+        transition: transform 0.3s ease;
+    }
+
+    aside ul.sites > li:hover > a img {
+        transform: scale(1.2);
+    }
+
+    aside ul:not(.sites) > li > a:hover {
+        transform: scale(1.2);
+    }
+
+    aside ul > li > a > img {
+        height: 32px;
+    }
+
+    aside ul > li .desc {
+        font-size: 12px;
+        margin-top: -10px;
+    }
+
     .ctxmenu {
         position: relative;
 
@@ -420,16 +561,28 @@
     }
 
     button > img {
-        height: 14px;
+        height: 26px;
+    }
+
+    button.narrow {
+        padding: 5px;
     }
 
     @media screen and (max-width: 640px) {
+        nav {
+            font-size: smaller;
+        }
+
         nav > div {
             flex-direction: column;
         }
 
         nav > div > span {
             width: 100% !important;
+        }
+
+        nav > div > span:last-child > span:last-child {
+            width: 60px;
         }
 
         h5 {
@@ -444,6 +597,10 @@
         .results > div.cards {
             grid-template-columns: repeat(2, 1fr);
         }
+
+        .results > div.cards > div > img {
+            width: 44px;
+        }
     }
 
     @media screen and (max-width: 480px) {
@@ -452,8 +609,12 @@
             margin: 1em;
         }
 
-        nav {
-            font-size: smaller;
+        nav > div > span {
+            gap: 0 !important;
+        }
+        
+        .results > div.cards > div > img {
+            width: 36px;
         }
     }
 
