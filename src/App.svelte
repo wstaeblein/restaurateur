@@ -25,6 +25,7 @@
     let timeHandle = 0;
     let clipImg = $state();
     let okClipImg;
+    let appData = $state();
 
     let results = $derived.by(() => {
 		let numpeople = (data.seats * data.occupation) / 100;
@@ -44,7 +45,13 @@
 
     changeBkg();
 
-    onMount(() => {
+
+    onMount(async () => {
+        let resp = await fetch('https://wstaeblein.github.io/myapps/json/data.json');
+        if (resp.ok) {
+            appData = await resp.json();
+            console.log('>>>>> ', appData)
+        }
         addEventListener("orientationchange", changeBkg);
         changeImage();
 
@@ -294,38 +301,41 @@
             <p>{trans.withlove}</p>
             <ul>
                 <li>
-                    <a href="mailto:walter@synergys.com.br" target="_blank"><img src="img/at.png" alt="Email" /></a>
+                    <a href="mailto:{appData.contacts.email}" target="_blank"><img src="img/at.png" alt="Email" /></a>
                 </li>
                 <li>
-                    <a href="https://github.com/wstaeblein" target="_blank"><img src="img/github.png" alt="Github" /></a>
+                    <a href="{appData.contacts.coderepo}" target="_blank"><img src="img/github.png" alt="Github" /></a>
                 </li>
                 <li>
-                    <a href="https://www.linkedin.com/in/wstaeblein" target="_blank"><img src="img/linkedin.png" alt="Linkedin" /></a>
+                    <a href="{appData.contacts.linkedin}" target="_blank"><img src="img/linkedin.png" alt="Linkedin" /></a>
                 </li>         
                 <li>
-                    <a href="https://bsky.app/profile/wstaeblein.bsky.social" target="_blank"><img src="img/bsky.png" alt="Blue Sky" /></a>
+                    <a href="{appData.contacts.bluesky}" target="_blank"><img src="img/bsky.png" alt="Blue Sky" /></a>
                 </li>         
                 <li>
-                    <a href="https://facebook.com/wstaeblein" target="_blank"><img src="img/fb.png" alt="Facebook" /></a>
+                    <a href="{appData.contacts.fb}" target="_blank"><img src="img/fb.png" alt="Facebook" /></a>
                 </li>                               
             </ul>
             <div>
                 <img src="img/bmc_qr.png" style="height: 160px" alt="qrcode" />
-                <div><a href="https://buymeacoffee.com/wstaeblein" target="_blank"><b>{trans.bmc}</b></a></div>
+                <div><a href="{appData.contacts.buymeacoffee}" target="_blank"><b>{trans.bmc}</b></a></div>
+                <br>
             </div>
 
             <p>{trans.sitesdesc}</p>
-            <ul class="sites">
-                {#each trans.sites as site}
-                    <li>
-                        <a href={site.link} target="_blank">
+            {#if appData}
+                <ul class="sites">
+                    {#each appData[lang] as site}
+                        <li>
+                            <a href={site.link} target="_blank">
 
-                            <div><img src="img/sites/{site.id}.png" alt="{site.name}" /></div>
-                            <div class="desc">{site.desc}</div>
-                        </a>
-                    </li>
-                {/each}
-            </ul>
+                                <div><img src="{appData.imgs[site.id]}" alt="{site.name}" /></div>
+                                <div class="desc">{site.desc}</div>
+                            </a>
+                        </li>
+                    {/each}
+                </ul>
+            {/if}
             <footer>
                 <button onclick={() => mode = 0} class="shadow">{trans.back}</button>
             </footer>
@@ -337,6 +347,7 @@
     .pitch {
         font-size: smaller;
         text-align: justify;
+        margin-bottom: 10px;
     }
 
     aside {
@@ -344,14 +355,17 @@
         user-select: none;
     }
 
+    aside p {
+        margin: 0;
+    }
+
     aside ul {
         list-style: none;
         padding: 0;
-        margin: 0;
         display: flex;
         justify-content: center;
-        gap: 15px;
-        margin: 5px 0 20px;
+        gap: 8px;
+        margin: 5px 0 8px;
     }
 
     aside ul.sites {
@@ -401,7 +415,7 @@
 
     aside ul > li .desc {
         font-size: 12px;
-        margin-top: -10px;
+        margin-top: -5px;
     }
 
     .ctxmenu {
