@@ -362,8 +362,8 @@
     aside ul {
         list-style: none;
         padding: 0;
-        display: flex;
-        justify-content: center;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
         gap: 8px;
         margin: 5px 0 8px;
     }
