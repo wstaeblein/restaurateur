@@ -11,3 +11,7 @@ status = 200
 [[edge_functions]]
   path = "/"
   function = "set-metas-by-lang"
+
+  [[edge_functions]]
+  path = "/(pt|en|es|fr|de)"
+  function = "set-metas-by-lang"
