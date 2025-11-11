@@ -299,7 +299,7 @@
         <aside in:fly={{ y: 200 }}>
             <p class="pitch">{trans.pitch}</p>
             <p>{trans.withlove}</p>
-            <ul>
+            <ul class="social">
                 <li>
                     <a href="mailto:{appData.contacts.email}" target="_blank"><img src="img/at.png" alt="Email" /></a>
                 </li>
@@ -318,14 +318,13 @@
             </ul>
             <div>
                 <img src="img/bmc_qr.png" style="height: 160px" alt="qrcode" />
-                <div><a href="{appData.contacts.buymeacoffee}" target="_blank"><b>{trans.bmc}</b></a></div>
-                <br>
+                <div class="bmc"><a href="{appData.contacts.buymeacoffee}" target="_blank"><b>{trans.bmc}</b></a></div>
             </div>
 
             <p>{trans.sitesdesc}</p>
             {#if appData}
                 <ul class="sites">
-                    {#each appData[lang] as site}
+                    {#each appData[lang].filter(a => a.id != 'restaurateur') as site}
                         <li>
                             <a href={site.link} target="_blank">
 
@@ -344,6 +343,10 @@
 </main>
 
 <style>
+    .bmc {
+        margin-bottom: 10px;
+    }
+
     .pitch {
         font-size: smaller;
         text-align: justify;
@@ -359,7 +362,17 @@
         margin: 0;
     }
 
-    aside ul {
+    aside ul.social {
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin: auto;
+        width: fit-content;
+        padding: 5px 0;
+    }
+
+    aside ul.sites {
         list-style: none;
         padding: 0;
         display: grid;
@@ -379,7 +392,7 @@
     }
 
     aside ul.sites > li {
-        width: 32%;
+
         border: 1px dotted #250a0a;
         padding: 0 10px 10px;
         border-radius: 9px;
@@ -397,7 +410,7 @@
     }
 
     aside ul.sites > li > a img {
-        height: 92px;
+        height: 84px;
         transition: transform 0.3s ease;
     }
 

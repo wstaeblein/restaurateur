@@ -1,8 +1,9 @@
 export default async (request, context) => {
  
     // Get lang
-    const langTag = (request.headers.get('accept-language') || 'en').split(',').shift().trim().split(';').shift();
-    const lang = langTag.split('-').shift().toLowerCase();
+    const headerLang = (request.headers.get('accept-language') || 'en').split(',').shift().trim().split(';').shift();
+    const urlLang = request.url.split('/').pop();
+    const lang = 'pt en es fr de'.includes(urlLang) ? urlLang : headerLang.split('-').shift().toLowerCase();
 
 
     // If language isn't matched, return in english

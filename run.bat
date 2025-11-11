@@ -10,4 +10,4 @@ nvm use 18
 timeout /t 1
 
 :site
-netlify serve
+npm run dev
