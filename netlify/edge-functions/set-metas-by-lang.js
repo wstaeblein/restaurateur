@@ -38,7 +38,7 @@ export default async (request, context) => {
     const response = await context.next();
     let html = await response.text();
   
-    html = html.replace(/\$\$\$LANG\$\$\$/g, lang).replace(/\$\$\$TITLE\$\$\$/g, title).replace(/\$\$\$DESC\$\$\$/g, desc).replace(/\$\$\$LANGTAG\$\$\$/g, langTag);
+    html = html.replace(/\$\$\$LANG\$\$\$/g, lang).replace(/\$\$\$TITLE\$\$\$/g, title).replace(/\$\$\$DESC\$\$\$/g, desc).replace(/\$\$\$LANGTAG\$\$\$/g, lang);
   
     // Return the response
     return new Response(html, response);
